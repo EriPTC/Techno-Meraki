@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, ShoppingCart, Menu, X } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, ShoppingCart, Menu, X, LogOut } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const Navbar = ({ searchQuery, onSearchChange }) => {
   const { totalItems, openCart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -14,12 +15,17 @@ const Navbar = ({ searchQuery, onSearchChange }) => {
     onSearchChange(e.target.value);
   };
 
+  const handleLogout = () => {
+    // Limpiar sesión y redirigir a la página principal
+    navigate('/'); 
+  };
+
   return (
     <nav className="bg-white border-b border-gray-200 py-4 px-4 sm:px-6 sticky top-0 z-40">
-      {/* Contenido igual que antes, pero usando handleInputChange y searchQuery */}
+      {/* Contenido principal */}
       <div className="flex items-center justify-between">
         <Link to="/dashboard" className="text-xl font-bold tracking-tight text-gray-800 shrink-0">
-          Téchnē <span className="font-normal">Meraki</span>
+          Téchno <span className="font-normal">Meraki</span>
         </Link>
 
         {/* Barra de búsqueda desktop */}
@@ -36,7 +42,7 @@ const Navbar = ({ searchQuery, onSearchChange }) => {
           />
         </div>
 
-        {/* Botón carrito y hamburguesa */}
+        {/* Botón carrito, hamburguesa y Cerrar sesión (desktop) */}
         <div className="flex items-center gap-4">
           <button
             onClick={openCart}
@@ -50,6 +56,16 @@ const Navbar = ({ searchQuery, onSearchChange }) => {
               </span>
             )}
           </button>
+
+          {/* Botón Cerrar sesión (visible en escritorio) */}
+          <button
+            onClick={handleLogout}
+            className="hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-full hover:bg-red-100 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Cerrar sesión
+          </button>
+
           <button
             onClick={toggleMenu}
             className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
@@ -75,7 +91,7 @@ const Navbar = ({ searchQuery, onSearchChange }) => {
         </div>
       </div>
 
-      {/* Menú colapsable (móvil) - enlaces */}
+      {/* Menú colapsable (móvil) */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
           isOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
@@ -94,6 +110,17 @@ const Navbar = ({ searchQuery, onSearchChange }) => {
           <Link to="/pedidos" className="text-gray-700 hover:text-blue-600 text-sm font-medium px-2 py-1 rounded" onClick={closeMenu}>
             Mis Pedidos
           </Link>
+          {/* Cerrar sesión en móvil */}
+          <button
+            onClick={() => {
+              closeMenu();
+              handleLogout();
+            }}
+            className="flex items-center gap-2 text-red-600 text-sm font-medium px-2 py-1 rounded hover:bg-red-50 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Cerrar sesión
+          </button>
         </div>
       </div>
 

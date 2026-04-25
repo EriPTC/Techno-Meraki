@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Modal from '../components/Modal';
-import Alert from '../components/Alert';
+import Alert from '../../../TechnoMeraki/src/components/Alert';
 import ConfirmModal from '../components/ConfirmModal';
 import EmployeeFormModal from '../components/EmployeeFormModal';
 import EmployeeDetailModal from '../components/EmployeeDetailModal';

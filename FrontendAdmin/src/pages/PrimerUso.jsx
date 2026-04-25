@@ -1,5 +1,5 @@
 // src/components/forms/RegisterForm.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { User, Mail, Lock, Eye, EyeOff, Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
@@ -27,17 +27,8 @@ export default function RegisterForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
-  // Referencias para los timeouts y poder limpiarlos
   const messageTimeoutRef = useRef(null);
   const redirectTimeoutRef = useRef(null);
-
-  // Limpiar timeouts cuando el componente se desmonte
-  useEffect(() => {
-    return () => {
-      if (messageTimeoutRef.current) clearTimeout(messageTimeoutRef.current);
-      if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
-    };
-  }, []);
 
   const handleImageChange = (name, imageUrl) => {
     setImages({ ...images, [name]: imageUrl });
@@ -54,31 +45,12 @@ export default function RegisterForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validar contraseñas
-    if (formData.password !== formData.confirmPassword) {
-      showMessage("Las contraseñas no coinciden.", "error");
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      showMessage("La contraseña debe tener al menos 6 caracteres.", "error");
-      return;
-    }
-
-    // Validar imágenes
-    if (!images.duiFront || !images.duiBack || !images.profile) {
-      showMessage("Por favor sube todas las fotos solicitadas (DUI y Perfil).", "error");
-      return;
-    }
-
-    // Aquí iría la llamada a tu API para guardar el usuario
+    // Simulación de éxito (sin validaciones)
     console.log("Datos del nuevo usuario:", formData);
     console.log("Imágenes subidas:", images);
 
-    // Mostrar mensaje de éxito
-    showMessage(`¡Usuario ${formData.nombres} creado con éxito!`, "success");
+    showMessage(`¡Usuario ${formData.nombres || "registrado"} creado con éxito!`, "success");
 
-    // Redirigir al login después de 2 segundos
     if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
     redirectTimeoutRef.current = setTimeout(() => {
       navigate("/login");
@@ -95,7 +67,6 @@ export default function RegisterForm() {
           icon={User}
           value={formData.nombres}
           onChange={handleChange}
-          required
         />
         <Input
           label="Apellidos"
@@ -104,7 +75,6 @@ export default function RegisterForm() {
           icon={User}
           value={formData.apellidos}
           onChange={handleChange}
-          required
         />
       </div>
 
@@ -116,7 +86,6 @@ export default function RegisterForm() {
         icon={Mail}
         value={formData.correo}
         onChange={handleChange}
-        required
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
@@ -129,7 +98,6 @@ export default function RegisterForm() {
           onIconClick={() => setShowPassword(!showPassword)}
           value={formData.password}
           onChange={handleChange}
-          required
         />
         <Input
           label="Confirmar Contraseña"
@@ -140,7 +108,6 @@ export default function RegisterForm() {
           onIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
           value={formData.confirmPassword}
           onChange={handleChange}
-          required
         />
       </div>
 
@@ -152,7 +119,6 @@ export default function RegisterForm() {
             image={images.duiFront}
             onChange={handleImageChange}
             icon={Camera}
-            required
           />
           <ImageUpload
             label="Agrega foto del reverso de tu DUI"
@@ -160,7 +126,6 @@ export default function RegisterForm() {
             image={images.duiBack}
             onChange={handleImageChange}
             icon={Camera}
-            required
           />
           <ImageUpload
             label="Agrega foto de perfil"
@@ -168,7 +133,6 @@ export default function RegisterForm() {
             image={images.profile}
             onChange={handleImageChange}
             icon={User}
-            required
           />
         </div>
       </div>
@@ -186,15 +150,6 @@ export default function RegisterForm() {
       <Button type="submit" variant="primary" className="w-full">
         Registrar Usuario
       </Button>
-
-      <div className="mt-6 text-center">
-        <p className="text-sm text-gray-500">
-          ¿Ya tienes una cuenta?{" "}
-          <a href="/login" className="font-bold text-[#165892] hover:underline transition-colors">
-            Inicia sesión aquí
-          </a>
-        </p>
-      </div>
     </form>
   );
 }

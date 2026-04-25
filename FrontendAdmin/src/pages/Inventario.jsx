@@ -6,7 +6,7 @@ import ProductTable from '../components/TableProducts';
 import Footer from '../components/Footer';
 import Modal from '../components/Modal';
 import AdvancedColorPicker from '../components/AdvancedColorPicker';
-import Alert from '../components/Alert';
+import Alert from '../../../TechnoMeraki/src/components/Alert';
 import ConfirmModal from '../components/ConfirmModal';
 import initialProducts from '../data/products';
 import { Plus, CloudUpload, ChevronDown, Pipette, X } from 'lucide-react';

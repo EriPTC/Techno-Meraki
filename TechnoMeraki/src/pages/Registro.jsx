@@ -5,26 +5,59 @@ import Input from "../components/input.jsx";
 import Button from "../components/button.jsx";
 import CircleAnimation from "../components/Animations/CircleAnimation.jsx";
 import { motion } from "framer-motion";
+import Alert from "../components/Alert.jsx";
 
 export default function App() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    nombre: "",
+    apellido: "",
     usuario: "",
-    password: ""
+    password: "",
+    email: ""
   });
+  const [alert, setAlert] = useState({ visible: false, type: "success", message: "" });
+
+  const showAlert = (type, message) => {
+    setAlert({ visible: true, type, message });
+  };
+
+  const hideAlert = () => setAlert({ visible: false, type: "success", message: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Validaciones básicas
+    if (!formData.nombre.trim()) {
+      showAlert("error", "El nombre es obligatorio");
+      return;
+    }
+    if (!formData.apellido.trim()) {
+      showAlert("error", "El apellido es obligatorio");
+      return;
+    }
+    if (!formData.usuario.trim()) {
+      showAlert("error", "El usuario es obligatorio");
+      return;
+    }
+    if (!formData.password.trim()) {
+      showAlert("error", "La contraseña es obligatoria");
+      return;
+    }
+    if (!formData.email.trim()) {
+      showAlert("error", "El correo es obligatorio");
+      return;
+    }
+    // Aquí iría la llamada a la API para registrar
     console.log("Datos del formulario:", formData);
-    alert(`te has regitrado con exito: ${formData.usuario}`);
-    navigate("/");
+    showAlert("success", `¡Te has registrado con éxito, ${formData.usuario}!`);
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
   };
-
 
   return (
     <div className="min-h-screen flex flex-col bg-[#bad4f8] relative">
@@ -33,9 +66,9 @@ export default function App() {
         <div className="bg-white/40 backdrop-blur-md p-8 sm:p-12 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/30 w-full max-w-lg">
           <div className="text-center mb-8">
             <h1 className="text-[36px] font-bold text-[#1a365d] tracking-tight">
-              Registrase
+              Registrarse
             </h1>
-            <p className="text-gray-500 mt-1">Se parte de nuestra familia</p>
+            <p className="text-gray-500 mt-1">Sé parte de nuestra familia</p>
           </div>
           <form onSubmit={handleSubmit}>
             <Input
@@ -45,7 +78,6 @@ export default function App() {
               value={formData.nombre}
               onChange={handleChange}
             />
-
             <Input
               label="Apellido"
               name="apellido"
@@ -53,41 +85,38 @@ export default function App() {
               value={formData.apellido}
               onChange={handleChange}
             />
-
             <Input
-               label="Usuario"
-               name="usuario"
-               placeholder="Ingrese su usuario"
-               value={formData.usuario}
-               onChange={handleChange}
+              label="Usuario"
+              name="usuario"
+              placeholder="Ingrese su usuario"
+              value={formData.usuario}
+              onChange={handleChange}
             />
-
             <Input
-               label="Contraseña"
-               name="password"
-               placeholder="Ingrese su contraseña"
-               value={formData.password}
-               onChange={handleChange}
+              label="Contraseña"
+              name="password"
+              placeholder="Ingrese su contraseña"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
             />
-
             <Input
-               label="Email"
-               name="email"
-               placeholder="Ingrese su correo"
-               value={formData.email}
-               onChange={handleChange}
+              label="Email"
+              name="email"
+              placeholder="Ingrese su correo"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
             />
-
-
             <div className="text-center mb-8">
-               <p className="text-gray-500 mt-1">
-                 <a 
-                   href="/" // Cambié esto a /registro por lógica, pero puedes mantenerlo
-                   className="text-[#1a365d] hover:underline decoration-2 underline-offset-2 decoration-[#0a1c33] transition-all active:text-[#0a1c33] font-medium"
-                 >
-                   {"Volver al login"}
-                 </a>
-               </p>
+              <p className="text-gray-500 mt-1">
+                <a
+                  href="/"
+                  className="text-[#1a365d] hover:underline decoration-2 underline-offset-2 decoration-[#0a1c33] transition-all active:text-[#0a1c33] font-medium"
+                >
+                  Volver al login
+                </a>
+              </p>
             </div>
             <div className="flex justify-center mt-4">
               <Button type="submit">Registrar</Button>
@@ -95,6 +124,14 @@ export default function App() {
           </form>
         </div>
       </div>
+
+      <Alert
+        type={alert.type}
+        message={alert.message}
+        isVisible={alert.visible}
+        onClose={hideAlert}
+        duration={3000}
+      />
     </div>
   );
 }

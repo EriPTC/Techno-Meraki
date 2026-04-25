@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import TablePromotions from '../components/TablePromotions';
 import Modal from '../components/Modal';
 import PromotionModal from '../components/PromotionModal';
-import Alert from '../components/Alert';
+import Alert from '../../../TechnoMeraki/src/components/Alert';
 import ConfirmModal from '../components/ConfirmModal';
 import initialPromotions from '../data/promotions';
 

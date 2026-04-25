@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Inventario from './pages/Inventario.jsx';
 import Empleados from './pages/Empleados.jsx';
 import Promociones from './pages/Promociones.jsx';
+import NotFound from './pages/NotFound.jsx';
 import {motion} from 'motion/react';
 
 
@@ -32,8 +33,10 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} /> 
             <Route path="/empleados" element={<Empleados />} /> 
             <Route path="/promociones" element={<Promociones />} /> 
-            {/* Puedes agregar ruta para registro luego */}
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
+          
         </main>
         
         

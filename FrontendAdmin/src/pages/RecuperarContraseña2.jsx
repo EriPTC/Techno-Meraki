@@ -5,7 +5,7 @@ import Input from "../components/Input.jsx";
 import Button from "../components/Button.jsx";
 import CircleAnimation from "../components/Animations/CircleAnimation.jsx";
 import { motion } from "framer-motion";
-import Alert from "../components/Alert.jsx";
+import Alert from "../../../TechnoMeraki/src/components/Alert.jsx";
 
 export default function App() {
   const navigate = useNavigate();
