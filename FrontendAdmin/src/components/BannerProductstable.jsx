@@ -1,15 +1,17 @@
-// BannerProductsTable.jsx
+// src/components/BannerProductsTable.jsx
 import React from 'react';
-import { Upload, Trash2 } from 'lucide-react';
-import bannerProducts from '../data/banner.js'; // Ajusta la ruta según tu estructura
+import { Upload, Trash2, Plus } from 'lucide-react';
 
-const BannerProductsTable = () => {
+const BannerProductsTable = ({ products, onAdd, onEdit, onDelete }) => {
   return (
     <div className="mb-12">
       <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 mb-4">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Productos en el banner</h2>
-        <button className="bg-[#a8cbe3] text-black font-semibold px-6 sm:px-10 py-2.5 rounded-xl shadow-sm hover:bg-[#96bace] transition-colors border border-gray-300 w-full sm:w-auto">
-          Agregar
+        <button
+          onClick={onAdd}
+          className="bg-[#a8cbe3] text-black font-semibold px-6 sm:px-10 py-2.5 rounded-xl shadow-sm hover:bg-[#96bace] transition-colors border border-gray-300 w-full sm:w-auto flex items-center gap-2 justify-center"
+        >
+          <Plus size={18} /> Agregar
         </button>
       </div>
       <div className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm overflow-x-auto">
@@ -25,7 +27,7 @@ const BannerProductsTable = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {bannerProducts.map((product) => (
+            {products.map((product) => (
               <tr key={product.id} className="hover:bg-gray-50 transition-colors">
                 <td className="py-2 sm:py-3 px-3 sm:px-6 text-center">
                   <img
@@ -48,10 +50,16 @@ const BannerProductsTable = () => {
                 </td>
                 <td className="py-2 sm:py-3 px-3 sm:px-6">
                   <div className="flex justify-center items-center gap-1 sm:gap-2">
-                    <button className="bg-[#5b8cff] text-white p-1.5 sm:p-2.5 rounded-lg hover:bg-blue-600">
+                    <button
+                      onClick={() => onEdit(product)}
+                      className="bg-[#5b8cff] text-white p-1.5 sm:p-2.5 rounded-lg hover:bg-blue-600"
+                    >
                       <Upload size={16} className="sm:w-[18px]" />
                     </button>
-                    <button className="bg-[#3548c7] text-white p-1.5 sm:p-2.5 rounded-lg hover:bg-blue-800">
+                    <button
+                      onClick={() => onDelete(product.id, product.name)}
+                      className="bg-[#3548c7] text-white p-1.5 sm:p-2.5 rounded-lg hover:bg-red-800"
+                    >
                       <Trash2 size={16} className="sm:w-[18px]" />
                     </button>
                   </div>

@@ -25,7 +25,6 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Datos del formulario:", formData);
-    alert(`Iniciando sesión con: ${formData.usuario}`);
     navigate("/dashboard");
   };
 

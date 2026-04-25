@@ -5,6 +5,7 @@ import Input from "../components/Input.jsx";
 import Button from "../components/Button.jsx";
 import CircleAnimation from "../components/Animations/CircleAnimation.jsx";
 import { motion } from "framer-motion";
+import Alert from "../components/Alert.jsx";
 
 export default function App() {
   const navigate = useNavigate();
@@ -12,6 +13,13 @@ export default function App() {
     password: ""
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [alert, setAlert] = useState({ visible: false, type: "success", message: "" });
+
+  const showAlert = (type, message) => {
+    setAlert({ visible: true, type, message });
+  };
+
+  const hideAlert = () => setAlert({ visible: false, type: "success", message: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,9 +31,14 @@ export default function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Datos del formulario:", formData);
-    alert(`Su nueva contraseña es: ${formData.password}`);
-    navigate("/login");
+    if (!formData.password.trim()) {
+      showAlert("error", "La contraseña no puede estar vacía");
+      return;
+    }
+    showAlert("success", "Contraseña actualizada correctamente");
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
   };
 
   return (
@@ -35,12 +48,11 @@ export default function App() {
         <div className="bg-white/40 backdrop-blur-md p-8 sm:p-12 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/30 w-full max-w-lg">
           <div className="text-center mb-8">
             <h1 className="text-[36px] font-bold text-[#1a365d] tracking-tight">
-              Cambiar Contrasaña
+              Cambiar Contraseña
             </h1>
-            <p className="text-gray-500 mt-1">Cambia tu contraseña a un fuerte</p>
+            <p className="text-gray-500 mt-1">Cambia tu contraseña a una fuerte</p>
           </div>
           <form onSubmit={handleSubmit}>
-
             <Input
               label="Contraseña"
               name="password"
@@ -51,15 +63,19 @@ export default function App() {
               value={formData.password}
               onChange={handleChange}
             />
-            <div className="text-center mb-8">
-              
-            </div>
             <div className="flex justify-center mt-4">
               <Button type="submit">Aceptar</Button>
             </div>
           </form>
         </div>
       </motion.div>
+      <Alert
+        type={alert.type}
+        message={alert.message}
+        isVisible={alert.visible}
+        onClose={hideAlert}
+        duration={3000}
+      />
     </div>
   );
 }
