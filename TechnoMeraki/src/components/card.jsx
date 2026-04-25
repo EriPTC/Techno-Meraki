@@ -40,7 +40,7 @@ const ProductCard = ({ product, isLiked, onToggleLike, onAddToCart, onViewDetail
           </button>
         </div>
       </div>
-    </div>
+    </div>  
   );
 };
 
