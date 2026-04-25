@@ -1,13 +1,10 @@
-import { useState } from 'react';
 import { Heart, Star } from 'lucide-react';
 
-const ProductCard = ({ product, onAddToCart, onViewDetails }) => {
-  const [isLiked, setIsLiked] = useState(false);
-
+const ProductCard = ({ product, isLiked, onToggleLike, onAddToCart, onViewDetails }) => {
   return (
     <div className="bg-white rounded-[14px] border border-gray-300 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col relative pb-5">
       <button
-        onClick={() => setIsLiked(!isLiked)}
+        onClick={() => onToggleLike(product.id)}
         className="absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-white/30 transition-colors"
       >
         <Heart className={`h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : 'text-red-500'}`} strokeWidth={1.5} />

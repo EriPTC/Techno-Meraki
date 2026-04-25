@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { SearchProvider } from './context/SearchContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import Layout from './components/Layout'; 
 import LoginPage from './pages/Login';
 import RegistroPage from './pages/Registro';
@@ -18,7 +19,8 @@ function App() {
   return (
     <Router>
       <CartProvider>
-        <SearchProvider>
+        <FavoritesProvider>
+          <SearchProvider>
           <Routes>
             {/* Rutas SIN layout (sin Navbar/Footer) */}
             <Route path="/" element={<LoginPage />} />
@@ -40,6 +42,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </SearchProvider>
+        </FavoritesProvider>
       </CartProvider>
     </Router>
   );
